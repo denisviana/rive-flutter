@@ -81,8 +81,7 @@ abstract class RiveRenderBox extends RenderBox {
       return constraints.smallest;
     }
 
-    return constraints
-        .constrainSizeAndAttemptToPreserveAspectRatio(artboardSize);
+    return constraints.constrainSizeAndAttemptToPreserveAspectRatio(artboardSize);
   }
 
   @override
@@ -92,9 +91,7 @@ abstract class RiveRenderBox extends RenderBox {
     // aspect ratio) artboard size.
     // If sized by parent, this returns 0 (because an infinite width does not
     // make sense as an intrinsic width and is therefore not allowed).
-    return _intrinsicSizeForConstraints(
-            BoxConstraints.tightForFinite(height: height))
-        .width;
+    return _intrinsicSizeForConstraints(BoxConstraints.tightForFinite(height: height)).width;
   }
 
   @override
@@ -106,9 +103,7 @@ abstract class RiveRenderBox extends RenderBox {
     // When we have an artboard size, the intrinsic min and max width are
     // obviously equivalent and if sized by parent, we can also only return the
     // smallest width constraint (which is 0 in the case of intrinsic width).
-    return _intrinsicSizeForConstraints(
-            BoxConstraints.tightForFinite(height: height))
-        .width;
+    return _intrinsicSizeForConstraints(BoxConstraints.tightForFinite(height: height)).width;
   }
 
   @override
@@ -118,9 +113,7 @@ abstract class RiveRenderBox extends RenderBox {
     // aspect ratio) artboard size.
     // If sized by parent, this returns 0 (because an infinite height does not
     // make sense as an intrinsic height and is therefore not allowed).
-    return _intrinsicSizeForConstraints(
-            BoxConstraints.tightForFinite(width: width))
-        .height;
+    return _intrinsicSizeForConstraints(BoxConstraints.tightForFinite(width: width)).height;
   }
 
   @override
@@ -132,9 +125,7 @@ abstract class RiveRenderBox extends RenderBox {
     // When we have an artboard size, the intrinsic min and max height are
     // obviously equivalent and if sized by parent, we can also only return the
     // smallest height constraint (which is 0 in the case of intrinsic height).
-    return _intrinsicSizeForConstraints(
-            BoxConstraints.tightForFinite(width: width))
-        .height;
+    return _intrinsicSizeForConstraints(BoxConstraints.tightForFinite(width: width)).height;
   }
 
   @override
@@ -194,9 +185,8 @@ abstract class RiveRenderBox extends RenderBox {
     if (_frameCallbackId != -1) {
       return;
     }
-    _frameCallbackId = _ambiguate(SchedulerBinding.instance)
-            .scheduleFrameCallback(_frameCallback) ??
-        -1;
+    _frameCallbackId =
+        _ambiguate(SchedulerBinding.instance)?.scheduleFrameCallback(_frameCallback) ?? -1;
   }
 
   /// Override this if you want to do custom viewTransform alignment. This will
@@ -215,8 +205,8 @@ abstract class RiveRenderBox extends RenderBox {
   }
 
   Mat2D computeAlignment([Offset offset = Offset.zero]) {
-    AABB frame = AABB.fromValues(
-        offset.dx, offset.dy, offset.dx + size.width, offset.dy + size.height);
+    AABB frame =
+        AABB.fromValues(offset.dx, offset.dy, offset.dx + size.width, offset.dy + size.height);
     AABB content = aabb;
 
     double contentWidth = content[2] - content[0];
@@ -226,12 +216,8 @@ abstract class RiveRenderBox extends RenderBox {
       return Mat2D();
     }
 
-    double x = -1 * content[0] -
-        contentWidth / 2.0 -
-        (_alignment.x * contentWidth / 2.0);
-    double y = -1 * content[1] -
-        contentHeight / 2.0 -
-        (_alignment.y * contentHeight / 2.0);
+    double x = -1 * content[0] - contentWidth / 2.0 - (_alignment.x * contentWidth / 2.0);
+    double y = -1 * content[1] - contentHeight / 2.0 - (_alignment.y * contentHeight / 2.0);
 
     double scaleX = 1.0, scaleY = 1.0;
 
@@ -241,13 +227,11 @@ abstract class RiveRenderBox extends RenderBox {
         scaleY = frame.height / contentHeight;
         break;
       case BoxFit.contain:
-        double minScale =
-            min(frame.width / contentWidth, frame.height / contentHeight);
+        double minScale = min(frame.width / contentWidth, frame.height / contentHeight);
         scaleX = scaleY = minScale;
         break;
       case BoxFit.cover:
-        double maxScale =
-            max(frame.width / contentWidth, frame.height / contentHeight);
+        double maxScale = max(frame.width / contentWidth, frame.height / contentHeight);
         scaleX = scaleY = maxScale;
         break;
       case BoxFit.fitHeight:
@@ -262,8 +246,7 @@ abstract class RiveRenderBox extends RenderBox {
         scaleX = scaleY = 1.0;
         break;
       case BoxFit.scaleDown:
-        double minScale =
-            min(frame.width / contentWidth, frame.height / contentHeight);
+        double minScale = min(frame.width / contentWidth, frame.height / contentHeight);
         scaleX = scaleY = minScale < 1.0 ? minScale : 1.0;
         break;
     }

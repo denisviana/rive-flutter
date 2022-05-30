@@ -45,7 +45,6 @@ class OneShotAnimation extends SimpleAnimation {
     isActive
         ? onStart?.call()
         // onStop can fire while widgets are still drawing
-        : _ambiguate(WidgetsBinding.instance)
-            .addPostFrameCallback((_) => onStop?.call());
+        : _ambiguate(WidgetsBinding.instance)?.addPostFrameCallback((_) => onStop?.call());
   }
 }

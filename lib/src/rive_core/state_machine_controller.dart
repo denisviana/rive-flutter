@@ -60,8 +60,7 @@ class LayerController {
   }
 
   bool _changeState(LayerState? state, {StateTransition? transition}) {
-    assert(state is! AnyState,
-        'We don\'t allow making the AnyState an active state.');
+    assert(state is! AnyState, 'We don\'t allow making the AnyState an active state.');
     if (state == _currentState?.state) {
       return false;
     }
@@ -77,18 +76,12 @@ class LayerController {
   }
 
   bool get isTransitioning =>
-      _transition != null &&
-      _stateFrom != null &&
-      _transition!.duration != 0 &&
-      _mix != 1;
+      _transition != null && _stateFrom != null && _transition!.duration != 0 && _mix != 1;
 
   void _updateMix(double elapsedSeconds) {
-    if (_transition != null &&
-        _stateFrom != null &&
-        _transition!.duration != 0) {
-      _mix = (_mix + elapsedSeconds / _transition!.mixTime(_stateFrom!.state))
-          .clamp(0, 1)
-          .toDouble();
+    if (_transition != null && _stateFrom != null && _transition!.duration != 0) {
+      _mix =
+          (_mix + elapsedSeconds / _transition!.mixTime(_stateFrom!.state)).clamp(0, 1).toDouble();
     } else {
       _mix = 1;
     }
@@ -162,8 +155,7 @@ class LayerController {
 
     var outState = _currentState;
     for (final transition in stateFrom.state.transitions) {
-      var allowed = transition.allowed(
-          stateFrom, controller._inputValues, ignoreTriggers);
+      var allowed = transition.allowed(stateFrom, controller._inputValues, ignoreTriggers);
       if (allowed == AllowTransition.yes &&
           _changeState(transition.stateTo, transition: transition)) {
         // Take transition
@@ -237,7 +229,7 @@ class StateMachineController extends RiveAnimationController<CoreContext> {
 
   /// Handles state change callbacks
   void _onStateChange(LayerState layerState) =>
-      _ambiguate(SchedulerBinding.instance).addPostFrameCallback((_) {
+      _ambiguate(SchedulerBinding.instance)?.addPostFrameCallback((_) {
         String stateName = 'unknown';
         if (layerState is AnimationState && layerState.animation != null) {
           stateName = layerState.animation!.name;
@@ -329,6 +321,7 @@ class StateMachineController extends RiveAnimationController<CoreContext> {
   }
 
   dynamic getInputValue(int id) => _inputValues[id];
+
   void setInputValue(int id, dynamic value) {
     _inputValues[id] = value;
     isActive = true;
@@ -416,8 +409,7 @@ class StateMachineController extends RiveAnimationController<CoreContext> {
         // Mounted artboard isn't ready or has a 0 scale transform.
         continue;
       }
-      for (final nestedStateMachine
-          in nestedArtboard.animations.whereType<NestedStateMachine>()) {
+      for (final nestedStateMachine in nestedArtboard.animations.whereType<NestedStateMachine>()) {
         switch (hitEvent) {
           case EventType.down:
             nestedStateMachine.pointerDown(nestedPosition);
@@ -453,5 +445,6 @@ class _HitShape {
   Shape shape;
   bool isHovered = false;
   List<StateMachineEvent> events = [];
+
   _HitShape(this.shape);
 }
