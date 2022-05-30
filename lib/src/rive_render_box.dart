@@ -195,7 +195,7 @@ abstract class RiveRenderBox extends RenderBox {
       return;
     }
     _frameCallbackId = _ambiguate(SchedulerBinding.instance)
-            ?.scheduleFrameCallback(_frameCallback) ??
+            .scheduleFrameCallback(_frameCallback) ??
         -1;
   }
 
